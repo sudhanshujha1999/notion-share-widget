@@ -1,7 +1,7 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { FC, useState } from 'react';
 import styled from '@emotion/styled';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import Organization from '../../Atom/ShowOrganization';
 import GlobeIcon from '../../../../asset/Globe.svg';

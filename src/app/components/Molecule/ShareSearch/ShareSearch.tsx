@@ -1,5 +1,5 @@
-import { Box, Button, Grid, TextField, Typography } from '@mui/material';
-import { FC, useEffect, useRef, useState } from 'react';
+import { Box, Button, TextField } from '@mui/material';
+import { FC, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { useRecoilState } from 'recoil';
 
@@ -8,7 +8,6 @@ import { accessLevelTypes } from 'app/types/common.schema';
 import { groupsState, membersState } from 'app/recoil/usersState';
 import Pill from 'app/components/Atom/Pill';
 import CustomMenu from 'app/components/Atom/CustomMenu';
-import useKeyPress from 'app/Hooks/useKeyPress';
 import ShowEntities from 'app/components/Atom/ShowEntities';
 
 const SearchContainer = styled(Box)`

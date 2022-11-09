@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Box, Button, Divider, TextField, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { FC, useState } from 'react';
 import ShareDetails from '../ShareDetails';
 

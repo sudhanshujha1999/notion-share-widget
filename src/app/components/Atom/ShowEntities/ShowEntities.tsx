@@ -1,8 +1,9 @@
+import { FC, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
+
 import useKeyPress from 'app/Hooks/useKeyPress';
 import { EntityTypes } from 'app/types/search.schema';
-import { FC, useEffect, useState } from 'react';
 
 const ItemContainer = styled(Box)<{ active?: Boolean }>`
   padding: 6px 4px;
