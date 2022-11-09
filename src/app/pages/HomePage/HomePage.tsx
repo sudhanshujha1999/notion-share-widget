@@ -25,12 +25,12 @@ const HomePage: FC = () => {
       <Box
         onClick={() => setSharing(false)}
         style={{
-          position: 'absolute',
+          position: 'fixed',
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(0,0,0,0.15)',
+          backgroundColor: 'rgba(0,0,0,0.10)',
           zIndex: 1,
         }}
       />
