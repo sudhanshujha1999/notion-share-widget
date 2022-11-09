@@ -22,7 +22,7 @@ const ShowGroup: FC<ShowGroupProps> = ({ id }) => {
       ...pre,
       [id]: { ...pre[id], access: selectedAccess },
     }));
-  }, [selectedAccess]);
+  }, [selectedAccess, id, setGroupsRecoilState]);
 
   return (
     <Box

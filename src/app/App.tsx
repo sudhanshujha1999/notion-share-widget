@@ -1,9 +1,8 @@
-import React, { FC, lazy, Suspense } from 'react';
+import { FC, lazy, Suspense } from 'react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { RecoilRoot } from 'recoil';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import logo from './logo.svg';
 import './App.css';
 import ErrorBoundary from './components/Atom/ErrorBoundary/ErrorBoundary';
 import theme from '../MuiWrapper/theme';

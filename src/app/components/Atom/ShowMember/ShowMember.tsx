@@ -23,7 +23,7 @@ const ShowMember: FC<ShowMemberProps> = ({ id }) => {
       ...pre,
       [id]: { ...pre[id], access: selectedAccess },
     }));
-  }, [selectedAccess]);
+  }, [selectedAccess, id, setMembersRecoilState]);
 
   return (
     <Box

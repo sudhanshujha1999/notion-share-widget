@@ -1,7 +1,3 @@
-/* eslint-disable complexity */
-import React, { FC } from 'react';
-
-
 const getURLParameter = (qrString: string, paramName: string): string => {
   const qr = qrString.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
   const regex = new RegExp(`[\\?&]${paramName}=([^&#]*)`);
@@ -102,12 +98,6 @@ const getPageName = () => {
   return path
 }
 
-const isContestNeutral = (type: string | undefined | null) => {
-  if (type)
-    return ['NEUTRAL', 'CHALLENGE_CREATED', 'CHALLENGE_CONTINUED'].includes(type)
-  return false
-}
-
 
 
 
@@ -120,51 +110,10 @@ const utils = {
   getDataFromLocalStorage,
   removeDataFromLocalStorage,
   getPageName,
-  isContestNeutral
 };
 
 export default utils;
 
-const buildValueObject = (yDiff: number, mDiff: number, dDiff: number, hourDiff: number, minDiff: number, secDiff: number, firstDateWasLater: boolean) => {
-  return {
-    "years": yDiff,
-    "months": mDiff,
-    "days": dDiff,
-    "hours": hourDiff,
-    "minutes": minDiff,
-    "seconds": secDiff,
-    "firstDateWasLater": firstDateWasLater
-  }
-}
-
-const pluralize = (num: number, word: string) => {
-  return `${num} ${word}${num === 1 ? '' : 's'}`;
-}
-
-function buildStringFromValues(yDiff?: number, mDiff?: number, dDiff?: number, hourDiff?: number, minDiff?: number, secDiff?: number) {
-  const result = [];
-
-  if (yDiff) {
-    result.push(pluralize(yDiff, 'yr'));
-  }
-  if (mDiff) {
-    result.push(pluralize(mDiff, 'month'));
-  }
-  if (dDiff) {
-    result.push(pluralize(dDiff, 'day'));
-  }
-  if (hourDiff) {
-    result.push(pluralize(hourDiff, 'hr'));
-  }
-  if (minDiff) {
-    result.push(pluralize(minDiff, 'min'));
-  }
-  if (secDiff) {
-    result.push(pluralize(secDiff, 'sec'));
-  }
-
-  return result.join(' ');
-}
 
 
 

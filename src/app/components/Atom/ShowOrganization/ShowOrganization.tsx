@@ -17,7 +17,7 @@ const ShowOrganization: FC = () => {
       ...pre,
       access: selectedAccess,
     }));
-  }, [selectedAccess]);
+  }, [selectedAccess, setOrgRecoilState]);
 
   return (
     <Box

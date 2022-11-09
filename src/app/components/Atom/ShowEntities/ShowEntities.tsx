@@ -47,13 +47,13 @@ const ShowEntities: FC<ShowEntitiesProps> = ({
         prevState < entityLength - 1 ? prevState + 1 : prevState
       );
     }
-  }, [downPress]);
+  }, [entityLength, downPress]);
 
   useEffect(() => {
     if (entityLength && upPress) {
       setCursor((prevState) => (prevState > 0 ? prevState - 1 : prevState));
     }
-  }, [upPress]);
+  }, [entityLength, upPress]);
 
   useEffect(() => {
     if (entityLength && enterPress) {
@@ -74,7 +74,7 @@ const ShowEntities: FC<ShowEntitiesProps> = ({
           : membersToShow.indexOf(hovered)
       );
     }
-  }, [hovered]);
+  }, [membersToShow, groupsToShow, entityLength, hovered]);
 
   const renderPerson = () => {
     if (membersToShow.length === 0) return null;

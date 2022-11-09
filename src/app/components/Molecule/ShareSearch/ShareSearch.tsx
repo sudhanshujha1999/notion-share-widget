@@ -107,7 +107,7 @@ const ShareSearch: FC<ShareSearchProps> = ({ setShowSearch }) => {
   };
 
   const handleInvite = () => {
-    Object.keys(selectedEntities).map((id) => {
+    Object.keys(selectedEntities).forEach((id) => {
       if (id.startsWith('m')) {
         setMembersRecoilState((pre) => ({
           ...pre,
