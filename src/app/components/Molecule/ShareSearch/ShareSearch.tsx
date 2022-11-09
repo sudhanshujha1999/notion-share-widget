@@ -1,5 +1,5 @@
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
-import { FC, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { useRecoilState } from 'recoil';
 
@@ -8,6 +8,8 @@ import { accessLevelTypes } from 'app/types/common.schema';
 import { groupsState, membersState } from 'app/recoil/usersState';
 import Pill from 'app/components/Atom/Pill';
 import CustomMenu from 'app/components/Atom/CustomMenu';
+import useKeyPress from 'app/Hooks/useKeyPress';
+import ShowEntities from 'app/components/Atom/ShowEntities';
 
 const SearchContainer = styled(Box)`
   position: relative;
@@ -28,18 +30,6 @@ const InviteButton = styled(Button)`
   margin-left: 12px;
 `;
 
-const ItemContainer = styled(Box)`
-  padding: 6px 4px;
-  display: flex;
-  flexdirection: row;
-  alignitems: center;
-  border-radius: 4px;
-  cursor: pointer;
-  :hover {
-    background: rgba(55, 53, 47, 0.08);
-  }
-`;
-
 interface ShareSearchProps {
   setShowSearch: CallableFunction;
 }
@@ -48,15 +38,64 @@ const ShareSearch: FC<ShareSearchProps> = ({ setShowSearch }) => {
   const [membersRecoilState, setMembersRecoilState] =
     useRecoilState(membersState);
   const [groupsRecoilState, setGroupsRecoilState] = useRecoilState(groupsState);
+  const searchRef = useRef<HTMLDivElement>();
+
+  const [filteredMembersList, setFilteredMembersList] = useState<EntityTypes[]>(
+    Object.values(membersRecoilState)
+  );
+  const [filteredGroupsList, setFilteredGroupsList] = useState<EntityTypes[]>(
+    Object.values(groupsRecoilState)
+  );
 
   const [selectedEntities, setSelectedEntities] =
     useState<EntityCollectionTypes>({});
   const [selectedAccess, setSelectedAccess] = useState<accessLevelTypes>('fa');
 
+  const filterData = (
+    data: EntityTypes[],
+    searchValue: string,
+    setState: CallableFunction
+  ) => {
+    const filteredData = data?.filter((item) => {
+      return (item.name.split(' ').join('') + item.email)
+        .toLowerCase()
+        .includes(searchValue.replace(/ /g, '').toLowerCase());
+    });
+    if (filteredData) setState(filteredData);
+  };
+
+  const handleSearchInput = (searchValue: string) => {
+    if (searchValue !== '') {
+      filterData(
+        Object.values(membersRecoilState),
+        searchValue,
+        setFilteredMembersList
+      );
+      filterData(
+        Object.values(groupsRecoilState),
+        searchValue,
+        setFilteredGroupsList
+      );
+    } else {
+      setFilteredMembersList(Object.values(membersRecoilState));
+      setFilteredGroupsList(Object.values(groupsRecoilState));
+    }
+  };
+
+  // this is to clear the search field, add focus to it and remove the older search results
+  const resetSearch = () => {
+    if (searchRef.current) {
+      (searchRef.current.children[0] as HTMLInputElement).value = '';
+      (searchRef.current.children[0] as HTMLInputElement).focus();
+      handleSearchInput('');
+    }
+  };
+
   const addSelectedEntity = (entity: EntityTypes) => {
     setSelectedEntities((pre) => {
       return { ...pre, [entity.id]: entity };
     });
+    resetSearch();
   };
 
   const removeSelectedEntity = (id: string) => {
@@ -65,6 +104,7 @@ const ShareSearch: FC<ShareSearchProps> = ({ setShowSearch }) => {
       delete copy[id];
       return copy;
     });
+    resetSearch();
   };
 
   const handleInvite = () => {
@@ -96,7 +136,11 @@ const ShareSearch: FC<ShareSearchProps> = ({ setShowSearch }) => {
           sx={{ flexWrap: 'wrap' }}
         >
           {Object.values(selectedEntities).map((entity) => (
-            <Pill entity={entity} removePill={removeSelectedEntity} />
+            <Pill
+              key={entity.id}
+              entity={entity}
+              removePill={removeSelectedEntity}
+            />
           ))}
           <Box
             minWidth={
@@ -115,7 +159,7 @@ const ShareSearch: FC<ShareSearchProps> = ({ setShowSearch }) => {
               fullWidth
               autoFocus
               size="small"
-              // onChange={handlePhoneNumberChange}
+              onChange={(e) => handleSearchInput(e.target.value)}
               placeholder={
                 Object.keys(selectedEntities).length > 0
                   ? 'Search'
@@ -123,6 +167,7 @@ const ShareSearch: FC<ShareSearchProps> = ({ setShowSearch }) => {
               }
               InputProps={{
                 disableUnderline: true,
+                ref: searchRef,
               }}
             />
           </Box>
@@ -141,96 +186,15 @@ const ShareSearch: FC<ShareSearchProps> = ({ setShowSearch }) => {
     );
   };
 
-  const renderPerson = () => {
-    const membersToShow = Object.values(membersRecoilState);
-    return (
-      <Box display="flex" flexDirection="column" marginBottom="16px">
-        <Typography
-          color="primary"
-          fontSize="16px"
-          lineHeight="24px"
-          fontWeight="500"
-          marginBottom="4px"
-        >
-          Select a person
-        </Typography>
-        {membersToShow.map((member) => (
-          <ItemContainer
-            key={member.name + member.img}
-            onClick={() => addSelectedEntity(member)}
-          >
-            <img
-              width="24px"
-              height="24px"
-              style={{ borderRadius: '50%' }}
-              src={member.img}
-              alt="Person"
-            />
-            <Typography
-              color="primary"
-              fontSize="16px"
-              lineHeight="24px"
-              marginLeft="12px"
-            >
-              {member.name}
-            </Typography>
-          </ItemContainer>
-        ))}
-      </Box>
-    );
-  };
-
-  const renderGroup = () => {
-    const groupsToShow = Object.values(groupsRecoilState);
-
-    return (
-      <Box display="flex" flexDirection="column">
-        <Typography
-          color="primary"
-          fontSize="16px"
-          lineHeight="24px"
-          fontWeight="500"
-          marginBottom="4px"
-        >
-          Select a group
-        </Typography>
-        {groupsToShow.map((group) => (
-          <ItemContainer
-            key={group.id}
-            onClick={() => addSelectedEntity(group)}
-          >
-            <Box
-              width="24px"
-              height="24px"
-              borderRadius="6px"
-              fontSize="14px"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              sx={{ background: '#6B7280' }}
-            >
-              {group.name.charAt(0).toUpperCase()}
-            </Box>
-            <Typography
-              color="primary"
-              fontSize="16px"
-              lineHeight="24px"
-              marginLeft="12px"
-            >
-              {group.name}
-            </Typography>
-          </ItemContainer>
-        ))}
-      </Box>
-    );
-  };
-
   return (
     <Box>
       {SearchBar()}
       <Box padding="16px 28px">
-        {renderPerson()}
-        {renderGroup()}
+        <ShowEntities
+          membersToShow={filteredMembersList}
+          groupsToShow={filteredGroupsList}
+          addSelectedEntity={addSelectedEntity}
+        />
       </Box>
     </Box>
   );
