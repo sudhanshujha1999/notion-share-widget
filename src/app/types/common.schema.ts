@@ -1,0 +1,1 @@
+export type accessLevelTypes = 'fa' | 'ce' | 'cv' | 'na';

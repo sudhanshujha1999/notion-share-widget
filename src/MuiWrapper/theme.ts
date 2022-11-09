@@ -136,10 +136,14 @@ const theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          borderRadius: '10px',
-          color: colors.white,
-          background: colors.black1,
-          paddingRight: '0.1rem',
+          borderRadius: '6px',
+          border: '1px solid #D1D5DB',
+          color: colors.black1,
+          background: colors.white,
+          paddingRight: '4rem',
+          '&:hover': {
+            border: '1px solid #6366F1',
+          }
         },
       },
     },
@@ -148,7 +152,9 @@ const theme = createTheme({
         // Name of the slot
         root: {
           // Some CSS
-          background: colors.black1,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
           fontSize: '14px',
         },
       },
