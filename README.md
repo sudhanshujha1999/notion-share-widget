@@ -23,11 +23,13 @@ I found it a little challenging to make a single connected keyboard accessibilit
 
 ## References
 
-* Notion Share Widget, [link](https://www.notion.so/).
+* Notion Share Widget. [link](https://www.notion.so/)
 
-* Material Ui, [link](https://mui.com/material-ui/).
+* Material Ui. [link](https://mui.com/material-ui/)
 
-* Keyboard Accessibility for a list, [link](https://whereisthemouse.com/create-a-list-component-with-keyboard-navigation-in-react).
+* Recoil - A state management library for React. [link](https://recoiljs.org/)
+
+* Keyboard Accessibility for a list. [link](https://whereisthemouse.com/create-a-list-component-with-keyboard-navigation-in-react)
 
 ## Scripts
 
