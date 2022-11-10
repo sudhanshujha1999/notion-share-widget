@@ -1,8 +1,9 @@
 # Notion Share Widget
 
 A simple Notion Share Widget developed such that, it can be plugged in any App with minor configurations.
+[Try Demo](https://codesandbox.io/p/github/sudhanshujha1999/notion-share-widget/main)
 
-## Project Details
+## How to use
 
 * In the project, you can share a resource with your team members, groups or organization with different access levels.
 
